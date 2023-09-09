@@ -1,0 +1,12 @@
+{
+  "domain": "geo_ihd",
+  "name": "Geo IHD",
+  "documentation": "https://github.com/flip555/hacs_geo_ihd/blob/main/README.md",
+  "dependencies": [],
+  "codeowners": ["@flip555"],
+  "requirements": [],
+  "config_flow": true,
+  "version": "0.2",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/flip555/hacs_geo_ihd/issues"
+}
