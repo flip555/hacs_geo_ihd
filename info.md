@@ -1,8 +1,5 @@
 # Geo Home IHD Integration for Home Assistant
 
-[![GitHub Release][releases-shield]][releases]
-[![License][license-shield]](LICENSE.md)
-
 This custom component for Home Assistant allows users to integrate with the Geo Home platform, bringing seamless home automation and control to your Home Assistant instance.
 
 ## Features
