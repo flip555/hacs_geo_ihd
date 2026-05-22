@@ -1,55 +1,63 @@
-# Geo Home IHD Integration for Home Assistant
+# Geo Home IHD
 
-This custom component for Home Assistant allows users to integrate with the Geo Home platform, bringing seamless home automation and control to your Home Assistant instance.
+A Home Assistant custom component for integrating Geo Home In-Home Display energy monitoring via the Geo Together API.
+
+[![GitHub Release](https://img.shields.io/github/v/release/flip555/hacs_geo_ihd?style=for-the-badge)](https://github.com/flip555/hacs_geo_ihd/releases)
+[![HACS Default](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge)](https://hacs.xyz/)
+[![Discord](https://img.shields.io/discord/1161651448011034734?style=for-the-badge&logo=discord)](https://discord.gg/4eQbPEETBR)
 
 ## Features
 
-- Easy integration with Geo Home via the Home Assistant UI.
-- Securely authenticate using your Geo Home credentials.
+- **Electricity Monitoring**: Live usage, total consumption, tariffs, costs, supply status
+- **Gas Monitoring**: Live usage, total consumption, tariffs, costs, supply status
+- **18 sensors** across electricity and gas categories
+- **Automatic caching** — token cached 1h, periodic data 10min, live data 30s
+- **Secure authentication** using email + password
+
+## Supported Sensors
+
+| Electricity | Gas |
+|---|---|
+| Total Consumption | Total Consumption |
+| Supply Status | Supply Status |
+| Bill To Date | Bill To Date |
+| Active Tariff Price | Active Tariff Price |
+| Cost (Day/Week/Month) | Cost (Day/Week/Month) |
+| Live Usage | Live Usage |
+| Zigbee Status | Zigbee Status |
 
 ## Installation
 
-### Via HACS (Home Assistant Community Store) as a Custom Repository
+### Via HACS (recommended)
+1. Ensure [HACS](https://hacs.xyz/) is installed.
+2. Go to HACS → Integrations → Three dots → "Custom repositories".
+3. Add `https://github.com/flip555/hacs_geo_ihd` as an Integration.
+4. Install "Geo Home IHD" from HACS.
+5. Restart Home Assistant.
 
-1. Ensure that [HACS](https://hacs.xyz/) is installed.
-2. Navigate to the HACS Integrations page.
-3. Click on the three dots in the top right corner and choose "Custom repositories".
-4. Enter the URL `https://github.com/flip555/hacs_geo_ihd` and select `Integration` from the category dropdown.
-5. Click "Add".
-6. Now, `Geo Home` should appear in the Integrations list in HACS. Install it from there.
-
-### Manual Installation
-
-1. Clone this repository or download the zip.
-2. Copy the `hacs_geo_ihd` directory from the repository into your `custom_components` directory of your Home Assistant configuration.
+### Manual
+1. Download the ZIP from the [latest release](https://github.com/flip555/hacs_geo_ihd/releases).
+2. Extract `geo_ihd` into your `custom_components` directory.
 3. Restart Home Assistant.
 
 ## Configuration
 
-1. Go to the Integrations page in the Home Assistant UI.
-2. Click on the "+" button at the bottom.
-3. Search for "Geo Home" and start the configuration flow.
-4. Provide your Geo Home Account `email` and `password`.
-5. Click "Submit" and you're good to go!
+1. Go to **Settings → Devices & Services → Add Integration**.
+2. Search for "Geo Home IHD".
+3. Enter your Geo Together **email** and **password**.
+4. Optionally change the API host (defaults to `https://api.geotogether.com`).
+5. Set the update frequency (default 30 seconds).
+6. Click Submit.
 
 ## Screenshots
 
-![Dashboard Screenshot](https://github.com/flip555/hacs_geo_ihd/raw/main/docs/dash.png)
-
-![Live Electric Data Screenshot](https://github.com/flip555/hacs_geo_ihd/raw/main/docs/live_electric.png)
+![Dashboard](https://github.com/flip555/hacs_geo_ihd/raw/main/docs/dash.png)
+![Live Electric Data](https://github.com/flip555/hacs_geo_ihd/raw/main/docs/live_electric.png)
 
 ## Support
 
-- For any issues or feedback, please [open an issue on GitHub](https://github.com/flip555/hacs_geo_ihd/issues).
-
-## Contributing
-
-If you'd like to contribute to this project, feel free to fork the repo, make your changes, and submit a pull request. All contributions are welcome!
+Open an issue on [GitHub](https://github.com/flip555/hacs_geo_ihd/issues) or join the [Discord](https://discord.gg/4eQbPEETBR).
 
 ## License
 
-This project is under the [MIT License](LICENSE.md).
-
-[releases]: https://github.com/flip555/hacs_geo_ihd/releases
-[releases-shield]: https://img.shields.io/github/release/flip555/hacs_geo_ihd.svg?style=for-the-badge
-[license-shield]: https://img.shields.io/github/license/flip555/hacs_geo_ihd.svg?style=for-the-badge
+MIT License
