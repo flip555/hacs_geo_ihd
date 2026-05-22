@@ -1,0 +1,7 @@
+{
+    "name": "Geo Home IHD",
+    "filename": "geo_ihd.zip",
+    "homeassistant": "2023.12.0",
+    "render_readme": true,
+    "zip_release": true
+}
