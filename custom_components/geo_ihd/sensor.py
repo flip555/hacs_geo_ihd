@@ -121,7 +121,7 @@ async def async_setup_entry(
                 "unique_id": f"geo_ihd_electricity_supply_status_{entry.entry_id}",
                 "unit_of_measurement": "",
                 "device_class": "",
-                "state_class": "",
+                "state_class": None,
                 "icon": "",
             }
         if "supplyStatusList" in periodic and len(periodic["supplyStatusList"]) > 1:
@@ -131,7 +131,7 @@ async def async_setup_entry(
                 "unique_id": f"geo_ihd_gas_supply_status_{entry.entry_id}",
                 "unit_of_measurement": "",
                 "device_class": "",
-                "state_class": "",
+                "state_class": None,
                 "icon": "",
             }
 
@@ -143,7 +143,7 @@ async def async_setup_entry(
                 "unique_id": f"geo_ihd_electricity_bill_to_date_{entry.entry_id}",
                 "unit_of_measurement": "GBP",
                 "device_class": "monetary",
-                "state_class": "total_increasing",
+                "state_class": None,
                 "icon": "",
             }
         if "billToDateList" in periodic and len(periodic["billToDateList"]) > 1:
@@ -153,7 +153,7 @@ async def async_setup_entry(
                 "unique_id": f"geo_ihd_gas_bill_to_date_{entry.entry_id}",
                 "unit_of_measurement": "GBP",
                 "device_class": "monetary",
-                "state_class": "total_increasing",
+                "state_class": None,
                 "icon": "",
             }
 
@@ -165,7 +165,7 @@ async def async_setup_entry(
                 "unique_id": f"geo_ihd_electricity_active_tariff_price_{entry.entry_id}",
                 "unit_of_measurement": "GBP/kWh",
                 "device_class": "",
-                "state_class": "",
+                "state_class": None,
                 "icon": "",
             }
         if "activeTariffList" in periodic and len(periodic["activeTariffList"]) > 1:
@@ -175,7 +175,7 @@ async def async_setup_entry(
                 "unique_id": f"geo_ihd_gas_active_tariff_price_{entry.entry_id}",
                 "unit_of_measurement": "GBP/kWh",
                 "device_class": "",
-                "state_class": "",
+                "state_class": None,
                 "icon": "",
             }
 
@@ -192,7 +192,7 @@ async def async_setup_entry(
                         "unique_id": f"geo_ihd_electricity_cost_{period.lower()}_{entry.entry_id}",
                         "unit_of_measurement": "GBP",
                         "device_class": "monetary",
-                        "state_class": "measurement",
+                        "state_class": None,
                         "icon": "",
                     }
 
@@ -209,7 +209,7 @@ async def async_setup_entry(
                         "unique_id": f"geo_ihd_gas_cost_{period.lower()}_{entry.entry_id}",
                         "unit_of_measurement": "GBP",
                         "device_class": "monetary",
-                        "state_class": "measurement",
+                        "state_class": None,
                         "icon": "",
                     }
 
@@ -225,7 +225,7 @@ async def async_setup_entry(
                 sensor_defs["live_electricity_usage"] = {
                     "state": power_data[0]["watts"],
                     "name": f"{electric_prefix} Live Usage",
-                    "unique_id": f"geo_ihd_live_electricity_usage_{entry.entry_id}",
+                    "unique_id": f"{STATE_FIX}{entry.entry_id}",
                     "unit_of_measurement": "W",
                     "device_class": "power",
                     "state_class": "measurement",
@@ -235,7 +235,7 @@ async def async_setup_entry(
                 sensor_defs["live_gas_usage"] = {
                     "state": power_data[1]["watts"],
                     "name": f"{gas_prefix} Live Usage",
-                    "unique_id": f"geo_ihd_live_gas_usage_{entry.entry_id}",
+                    "unique_id": f"{STATE_FIX}{entry.entry_id}",
                     "unit_of_measurement": "W",
                     "device_class": "power",
                     "state_class": "measurement",
@@ -252,7 +252,7 @@ async def async_setup_entry(
                     "unique_id": f"geo_ihd_electricity_zigbee_status_{entry.entry_id}",
                     "unit_of_measurement": "",
                     "device_class": "",
-                    "state_class": "",
+                    "state_class": None,
                     "icon": "",
                 }
             if "gasClusterStatus" in zs:
@@ -262,7 +262,7 @@ async def async_setup_entry(
                     "unique_id": f"geo_ihd_gas_zigbee_status_{entry.entry_id}",
                     "unit_of_measurement": "",
                     "device_class": "",
-                    "state_class": "",
+                    "state_class": None,
                     "icon": "",
                 }
 
