@@ -21,7 +21,7 @@ jobs:
         shell: "bash"
         run: |
           cd "${{ github.workspace }}/custom_components/geo_ihd"
-          zip geo_ihd.zip ./
+          zip -r geo_ihd.zip .
 
       - name: "Upload the ZIP file to the release"
         uses: softprops/action-gh-release@v2.5.0
