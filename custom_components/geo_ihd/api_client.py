@@ -25,6 +25,12 @@ class GeoHomeAPIClient:
             await self._session.close()
             self._session = None
 
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, *args):
+        await self.close()
+
     async def _request(self, method: str, path: str, **kwargs):
         await self._ensure_session()
         url = f"{self.base_url}{path}"

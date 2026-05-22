@@ -20,7 +20,6 @@ class GeoIhdCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self._config = entry.data
         self.entry_id = entry.entry_id
         self.username = self._config.get("username")
-        self._api_client = None
         self._cache = {}
         super().__init__(
             hass, _LOGGER, name="Geo Home IHD",
@@ -44,44 +43,43 @@ class GeoIhdCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from the Geo Together API."""
+        client = None
         try:
-            if self._api_client is None:
-                self._api_client = GeoHomeAPIClient(
-                    self.username,
-                    self._config.get("password"),
-                    self._config.get("host", "https://api.geotogether.com"),
-                )
+            client = GeoHomeAPIClient(
+                self.username,
+                self._config.get("password"),
+                self._config.get("host", "https://api.geotogether.com"),
+            )
 
-            async with self._api_client:
-                system_id = None
-                if not self._is_cache_valid("system_id", timedelta(hours=1)):
-                    if not self._is_cache_valid("device_data", timedelta(hours=1)):
-                        device_data = await self._api_client.get_device_data()
-                        self._update_cache("device_data", device_data)
-                    else:
-                        device_data = self._get_cached_data("device_data")
-                    system_id = device_data["systemRoles"][0]["systemId"]
-                    self._update_cache("system_id", system_id)
-                else:
-                    system_id = self._get_cached_data("system_id")
-
-                if not self._is_cache_valid("periodic_data", timedelta(minutes=10)):
-                    periodic_data = await self._api_client.get_periodic_meter_data(system_id)
-                    self._update_cache("periodic_data", periodic_data)
-                else:
-                    periodic_data = self._get_cached_data("periodic_data")
-
-                if not self._is_cache_valid("live_data", timedelta(seconds=30)):
-                    live_data = await self._api_client.get_live_meter_data(system_id)
-                    self._update_cache("live_data", live_data)
-                else:
-                    live_data = self._get_cached_data("live_data")
-
+            system_id = None
+            if not self._is_cache_valid("system_id", timedelta(hours=1)):
                 if not self._is_cache_valid("device_data", timedelta(hours=1)):
-                    device_data = await self._api_client.get_device_data()
+                    device_data = await client.get_device_data()
                     self._update_cache("device_data", device_data)
                 else:
                     device_data = self._get_cached_data("device_data")
+                system_id = device_data["systemRoles"][0]["systemId"]
+                self._update_cache("system_id", system_id)
+            else:
+                system_id = self._get_cached_data("system_id")
+
+            if not self._is_cache_valid("periodic_data", timedelta(minutes=10)):
+                periodic_data = await client.get_periodic_meter_data(system_id)
+                self._update_cache("periodic_data", periodic_data)
+            else:
+                periodic_data = self._get_cached_data("periodic_data")
+
+            if not self._is_cache_valid("live_data", timedelta(seconds=30)):
+                live_data = await client.get_live_meter_data(system_id)
+                self._update_cache("live_data", live_data)
+            else:
+                live_data = self._get_cached_data("live_data")
+
+            if not self._is_cache_valid("device_data", timedelta(hours=1)):
+                device_data = await client.get_device_data()
+                self._update_cache("device_data", device_data)
+            else:
+                device_data = self._get_cached_data("device_data")
 
             return {
                 'PeriodicMeterData': periodic_data,
@@ -93,3 +91,6 @@ class GeoIhdCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             for key in list(self._cache.keys()):
                 self._cache.pop(key, None)
             raise UpdateFailed(f"Failed to fetch Geo IHD data: {e}")
+        finally:
+            if client:
+                await client.close()
