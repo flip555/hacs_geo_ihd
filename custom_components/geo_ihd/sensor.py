@@ -83,11 +83,9 @@ async def async_setup_entry(
     coordinator = hass.data[DOMAIN][entry.entry_id]
     username = entry.data.get("username")
 
-    # Build sensor data from coordinator
     sensors_data = coordinator.data
-    sensors = {}
+    _LOGGER.debug("LiveMeterData raw: %s", str(sensors_data.get("LiveMeterData", {}))[:500])
 
-    # Electric sensors
     electric_prefix = "Geo IHD - Electricity"
     gas_prefix = "Geo IHD - Gas"
 
@@ -219,11 +217,17 @@ async def async_setup_entry(
                         "icon": "",
                     }
 
-        # Live Data
+        # Live Data — try multiple possible API response structures
+        power_data = None
         if "power" in live:
-            if len(live["power"]) > 0:
+            power_data = live["power"]
+        elif "watts" in live:
+            power_data = [{"watts": live["watts"]}]
+        
+        if power_data:
+            if len(power_data) > 0 and isinstance(power_data[0], dict) and "watts" in power_data[0]:
                 sensor_defs["live_electricity_usage"] = {
-                    "state": live["power"][0]["watts"],
+                    "state": power_data[0]["watts"],
                     "name": f"{electric_prefix} Live Usage",
                     "unique_id": f"geo_ihd_live_electricity_usage_{entry.entry_id}",
                     "unit_of_measurement": "W",
@@ -231,9 +235,9 @@ async def async_setup_entry(
                     "state_class": "measurement",
                     "icon": "",
                 }
-            if len(live["power"]) > 1:
+            if len(power_data) > 1 and isinstance(power_data[1], dict) and "watts" in power_data[1]:
                 sensor_defs["live_gas_usage"] = {
-                    "state": live["power"][1]["watts"],
+                    "state": power_data[1]["watts"],
                     "name": f"{gas_prefix} Live Usage",
                     "unique_id": f"geo_ihd_live_gas_usage_{entry.entry_id}",
                     "unit_of_measurement": "W",
