@@ -43,10 +43,11 @@ class GeoIhdSensor(CoordinatorEntity, SensorEntity):
         self._attr_icon = sensor_info.get("icon", "")
 
         device_type = "electric" if "electric" in key else "gas"
+        device_name = f"Geo IHD - {device_type.capitalize()}"
         self._attr_device_info = DeviceInfo(
             identifiers={("geo_ihd", entry_id, username, device_type)},
             manufacturer="Geo Home",
-            name=f"Geo Home IHD",
+            name=device_name,
             model="Geo IHD",
             sw_version="v1.0",
         )
@@ -81,8 +82,8 @@ async def async_setup_entry(
     sensors_data = coordinator.data
     _LOGGER.debug("LiveMeterData raw: %s", str(sensors_data.get("LiveMeterData", {}))[:500])
 
-    electric_prefix = "Geo IHD - Electricity"
-    gas_prefix = "Geo IHD - Gas"
+    electric_prefix = "Electricity"
+    gas_prefix = "Gas"
 
     sensor_defs = {}
 
