@@ -2,12 +2,7 @@
 
 import logging
 
-from homeassistant.components.sensor import (
-    SensorEntity,
-    SensorDeviceClass,
-    SensorStateClass,
-    RestoreSensor,
-)
+from homeassistant.components.sensor import SensorEntity, SensorDeviceClass, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -19,7 +14,7 @@ from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-class GeoIhdSensor(CoordinatorEntity, RestoreSensor):
+class GeoIhdSensor(CoordinatorEntity, SensorEntity):
     """Sensor for Geo Home IHD data."""
 
     def __init__(self, coordinator, key: str, entry_id: str, username: str) -> None:
